@@ -3,11 +3,17 @@
 include("vendor/autoload.php");
 
 use Libs\Database\MySQL;
+use Libs\Database\UsersTable;
 
-$mysql = new MySQL;
-$db = $mysql->connect();
+$table = new UsersTable(new MySQL);
 
-$result = $db->query("SELECT * FROM roles");
-$rows = $result->fetchAll();
+$data = [
+    "name" => "Tom",
+    "email" => "tom@gmail.com",
+    "phone" => "349329",
+    "address" => "Address",
+    "password" => "password",
+];
 
-print_r($rows);
+// $id = $table->insert($data);
+print_r($table->getAll());

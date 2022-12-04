@@ -19,10 +19,10 @@ class MySQL
         $dbpass="",
         $dbname="project",
     ) {
-        $this->$dbhost = $dbhost;
-        $this->$dbuser = $dbuser;
-        $this->$dbpass = $dbpass;
-        $this->$dbname = $dbname;
+        $this->dbhost = $dbhost;
+        $this->dbuser = $dbuser;
+        $this->dbname = $dbname;
+        $this->dbpass = $dbpass;
     }
 
 
