@@ -4,6 +4,7 @@ include("../vendor/autoload.php");
 
 use Libs\Database\MySQL;
 use Libs\Database\UsersTable;
+use Helpers\HTTP;
 
 $table = new UsersTable(new MySQL);
 $data = [
@@ -11,12 +12,12 @@ $data = [
     "email" => $_POST['email'],
     "phone" => $_POST['phone'],
     "address" => $_POST['address'],
-    "password" => $_POST['password'],
+    "password" => md5($_POST['password']),
 ];
 $id = $table->insert($data);
 
 if($id) {
-    header("location: ../index.php?register=success");
+    HTTP::redirect('/index.php', 'register=success');
 } else {
-    header("location: ../register.php?error=1");
+    HTTP::redirect('/register.php', 'error=1');
 }

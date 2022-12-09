@@ -39,4 +39,17 @@ class UsersTable {
             exit();
         }
     }
+
+    public function findByEmailAndPassword($email, $password)
+    {
+        try {
+            $statement = $this->db->prepare("SELECT users.*,roles.name AS roles, roles.value FROM users LEFT JOIN roles ON users.role_id = roles.id WHERE users.email=:email AND users.password=:password");
+            $statement->execute(["email" => $email, "password" => $password]);
+
+            return $statement->fetch() ?? false;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
 }
