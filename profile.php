@@ -1,11 +1,7 @@
 <?php
-    
-    session_start();
-
-    if(!isset($_SESSION['user'])) {
-        header('location: index.php');
-        exit();
-    }
+    include("vendor/autoload.php");
+    use Helpers\Auth;
+    $user = Auth::check();
 ?>
 
 <!DOCTYPE html>
@@ -18,40 +14,49 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-3">Phone Myat Thu (Frontend Developer)</h1>
+    <div class="container">
+        <h1 class="mt-5 mb-5">
+            <?= $user->name ?>
+            <span class="fw-normal text-muted">
+                (<?= $user->role ?>)
+            </span>
+        </h1>
 
-    <?php if(isset($_GET['error'])): ?>
-        <div class="alert alert-warning">
-            Cannot upload file
-        </div>
-    <?php endif ?>    
+        <?php if(isset($_GET['error'])): ?>
+            <div class="alert alert-warning">
+                Cannot upload file
+            </div>
+        <?php endif ?>    
 
-    <?php if(file_exists('_actions/photos/profile.jpg')): ?>
-        <img class="img-thumbnail mb-3" src="_actions/photos/profile.jpg" alt="Profile Photo" width="200">
-    <?php endif ?>    
+        <?php if($user->photo): ?>
+            <img
+                class="img-thumbnail mb-3"
+                src="_actions/photos/<?= $user->photo ?>"
+                alt="Profile Photo" width="200">
+        <?php endif ?>
 
-    <form action="_actions/upload.php" method="post" enctype="multipart/form-data">
-        <div class="input-group mb-3">
-            <input type="file" name="photo" class="form-control">
-            <button class=" btn btn-secondary">Upload</button>
-        </div>
-    </form>
+        <form action="_actions/upload.php"  method="post" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+                <input type="file" name="photo" class="form-control">
+                <button class="btn btn-secondary">Upload</button>
+            </div>
+        </form>
 
         <ul class="list-group">
             <li class="list-group-item">
-                <b>Email:</b> phonemyatthu@gmail.com
+                <b>Email:</b> <?= $user->email ?>
             </li>
             <li class="list-group-item">
-                <b>Phone:</b> (09) 325 540 402
+                <b>Phone:</b> <?= $user->phone ?>
             </li>
             <li class="list-group-item">
-                <b>Address:</b> No. 334 , Daisy Street,Strawberry City
+                <b>Address:</b> <?= $user->address ?>
             </li>
         </ul>
         <br>
 
-        <a href="_actions/logout.php">Logout</a>
+        <a href="admin.php">Manage Users</a>
+        <a href="_actions/logout.php" class="text-danger">Logout</a>
     </div>
 </body>
 </html>
