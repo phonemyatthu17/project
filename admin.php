@@ -75,11 +75,13 @@
         <a href="_actions/suspend.php?id=<?= $user->id ?>"
             class="btn btn-sm btn-outline-success">Active</a>
     <?php endif ?>
+
     <?php if($user->id !== $auth->id): ?>
         <a href="_actions/delete.php?id=<?= $user->id ?>"
             class="btn btn-sm btn-outline-danger"
             onClick="return confirm('Are you sure?')">Delete</a>
     <?php endif ?>
+    
 </div>
 
 <?php else: ?>
